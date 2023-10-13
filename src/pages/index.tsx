@@ -1,7 +1,22 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import axios from 'axios';
 
 const inter = Inter({ subsets: ['latin'] })
+
+export async function getStaticProps() {
+  const res = await fetch("http://localhost:3001/api/v1/day_articles");
+  const day_articles = await res.json();
+
+  console.log(day_articles);
+
+  return{
+    props:{
+      day_articles,
+    },
+    revalidate:60 * 60 *24
+  }
+}
 
 export default function Home() {
   return (
